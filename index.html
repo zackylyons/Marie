@@ -1,1801 +1,1414 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Marie — Profile</title>
-
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    >
-
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap');
-
-        :root {
-            --bg: #07060b;
-
-            --text: #f8f5fc;
-            --text-soft: #c9c2d3;
-            --muted: #8f879b;
-            --dim: #686173;
-
-            --purple: #a78bfa;
-            --purple-bright: #c4aaff;
-            --pink: #efa9cb;
-
-            --border: rgba(190, 157, 255, .16);
-            --border-strong: rgba(190, 157, 255, .28);
-
-            --card: rgba(20, 17, 29, .78);
-        }
-
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-
-        body {
-            min-height: 100vh;
-
-            padding: 55px 20px;
-
-            background: var(--bg);
-
-            color: var(--text);
-
-            font-family:
-                "DM Sans",
-                -apple-system,
-                BlinkMacSystemFont,
-                "Segoe UI",
-                sans-serif;
-
-            display: flex;
-            justify-content: center;
-
-            overflow-x: hidden;
-        }
-
-
-        /* =========================================================
-           BACKGROUND
-        ========================================================= */
-
-        .background {
-            position: fixed;
-            inset: 0;
-
-            z-index: -10;
-
-            overflow: hidden;
-
-            background:
-                radial-gradient(
-                    ellipse 650px 500px at 50% -10%,
-                    rgba(151, 105, 230, .22),
-                    transparent 70%
-                ),
-
-                radial-gradient(
-                    ellipse 500px 600px at 100% 75%,
-                    rgba(111, 76, 180, .10),
-                    transparent 70%
-                ),
-
-                radial-gradient(
-                    ellipse 500px 500px at 0% 65%,
-                    rgba(213, 119, 171, .045),
-                    transparent 70%
-                ),
-
-                #07060b;
-        }
-
-
-        .ambient {
-            position: absolute;
-
-            width: 850px;
-            height: 850px;
-
-            top: -650px;
-            left: 50%;
-
-            transform: translateX(-50%);
-
-            border-radius: 50%;
-
-            background:
-                radial-gradient(
-                    circle,
-                    rgba(183, 137, 250, .20),
-                    rgba(183, 137, 250, .04) 45%,
-                    transparent 70%
-                );
-
-            filter: blur(20px);
-
-            animation:
-                ambientPulse 8s ease-in-out infinite alternate;
-        }
-
-
-        @keyframes ambientPulse {
-
-            from {
-                opacity: .65;
-                transform:
-                    translateX(-50%)
-                    scale(.94);
-            }
-
-            to {
-                opacity: 1;
-                transform:
-                    translateX(-50%)
-                    scale(1.06);
-            }
-
-        }
-
-
-        .stars {
-            position: absolute;
-            inset: 0;
-
-            opacity: .65;
-
-            background-image:
-
-                radial-gradient(
-                    circle at 8% 15%,
-                    rgba(255,255,255,.65) 0 1px,
-                    transparent 1.5px
-                ),
-
-                radial-gradient(
-                    circle at 19% 42%,
-                    rgba(255,255,255,.25) 0 1px,
-                    transparent 1.5px
-                ),
-
-                radial-gradient(
-                    circle at 34% 11%,
-                    rgba(255,255,255,.35) 0 1px,
-                    transparent 1.5px
-                ),
-
-                radial-gradient(
-                    circle at 52% 25%,
-                    rgba(255,255,255,.22) 0 1px,
-                    transparent 1.5px
-                ),
-
-                radial-gradient(
-                    circle at 70% 9%,
-                    rgba(255,255,255,.40) 0 1px,
-                    transparent 1.5px
-                ),
-
-                radial-gradient(
-                    circle at 82% 34%,
-                    rgba(255,255,255,.28) 0 1px,
-                    transparent 1.5px
-                ),
-
-                radial-gradient(
-                    circle at 91% 72%,
-                    rgba(255,255,255,.35) 0 1px,
-                    transparent 1.5px
-                );
-        }
-
-
-        .grain {
-            position: fixed;
-            inset: 0;
-
-            z-index: 50;
-
-            pointer-events: none;
-
-            opacity: .025;
-
-            background-image:
-                url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-        }
-
-
-        /* =========================================================
-           PAGE
-        ========================================================= */
-
-        .page {
-            width: 100%;
-            max-width: 470px;
-
-            position: relative;
-            z-index: 2;
-
-            animation:
-                pageIn .8s cubic-bezier(.16,1,.3,1);
-        }
-
-
-        @keyframes pageIn {
-
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-
-        }
-
-
-        /* =========================================================
-           PROFILE
-        ========================================================= */
-
-        .profile {
-            text-align: center;
-
-            padding:
-                10px
-                10px
-                29px;
-        }
-
-
-        .avatar-wrap {
-            width: 118px;
-            height: 118px;
-
-            margin:
-                0 auto
-                23px;
-
-            position: relative;
-        }
-
-
-        .avatar-glow {
-            position: absolute;
-
-            inset: -16px;
-
-            border-radius: 50%;
-
-            background:
-                radial-gradient(
-                    circle,
-                    rgba(167,139,250,.32),
-                    rgba(240,166,200,.10) 45%,
-                    transparent 70%
-                );
-
-            filter: blur(13px);
-
-            animation:
-                avatarGlow 5s ease-in-out infinite alternate;
-        }
-
-
-        @keyframes avatarGlow {
-
-            from {
-                opacity: .55;
-                transform: scale(.94);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1.08);
-            }
-
-        }
-
-
-        .avatar-ring {
-            position: absolute;
-
-            inset: -4px;
-
-            border-radius: 50%;
-
-            background:
-                conic-gradient(
-                    from 220deg,
-                    #8fbfff,
-                    #efa9cb,
-                    #ffffff,
-                    #b99af1,
-                    #8fbfff
-                );
-
-            opacity: .9;
-
-            animation:
-                ringRotate 12s linear infinite;
-        }
-
-
-        @keyframes ringRotate {
-
-            to {
-                transform: rotate(360deg);
-            }
-
-        }
-
-
-        .avatar {
-            position: relative;
-
-            width: 118px;
-            height: 118px;
-
-            display: block;
-
-            object-fit: cover;
-
-            border-radius: 50%;
-
-            border:
-                3px solid
-                #09080d;
-
-            box-shadow:
-                0 18px 55px rgba(0,0,0,.65);
-        }
-
-
-        .name {
-            font-family:
-                "Playfair Display",
-                Georgia,
-                serif;
-
-            font-size: 44px;
-
-            line-height: 1;
-
-            font-weight: 600;
-
-            letter-spacing: -1.7px;
-
-            margin-bottom: 14px;
-
-            background:
-                linear-gradient(
-                    115deg,
-                    #ffffff 10%,
-                    #f1e9fb 48%,
-                    #d7b8ee 100%
-                );
-
-            -webkit-background-clip: text;
-            background-clip: text;
-
-            color: transparent;
-
-            text-shadow:
-                0 0 35px rgba(182,142,241,.10);
-        }
-
-
-        /* =========================================================
-           IDENTITY
-        ========================================================= */
-
-        .identity {
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            flex-wrap: wrap;
-
-            gap: 8px;
-
-            margin-bottom: 12px;
-
-            font-size: 13px;
-        }
-
-
-        .identity strong {
-            color: #eee8f4;
-
-            font-weight: 600;
-        }
-
-
-        .identity .dot {
-            color: #635a6e;
-        }
-
-
-        .bio-description {
-            max-width: 350px;
-
-            margin: auto;
-
-            color: #b0a8bb;
-
-            font-size: 13px;
-
-            line-height: 1.7;
-
-            font-weight: 500;
-        }
-
-
-        .location {
-            display: inline-flex;
-
-            align-items: center;
-
-            gap: 7px;
-
-            margin-top: 15px;
-
-            color: #847b91;
-
-            font-size: 11px;
-
-            letter-spacing: .4px;
-        }
-
-
-        .location i {
-            color: var(--pink);
-
-            font-size: 10px;
-
-            filter:
-                drop-shadow(
-                    0 0 7px
-                    rgba(239,169,203,.45)
-                );
-        }
-
-
-        /* =========================================================
-           CLOCK
-        ========================================================= */
-
-        .clock-card {
-            position: relative;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: space-between;
-
-            margin:
-                3px
-                0
-                25px;
-
-            padding:
-                14px
-                16px;
-
-            overflow: hidden;
-
-            border-radius: 18px;
-
-            border:
-                1px solid
-                rgba(180,145,245,.15);
-
-            background:
-                linear-gradient(
-                    110deg,
-                    rgba(131,96,190,.12),
-                    rgba(255,255,255,.035) 55%,
-                    rgba(215,132,181,.055)
-                );
-
-            box-shadow:
-                inset 0 1px 0
-                    rgba(255,255,255,.055),
-
-                0 15px 40px
-                    rgba(0,0,0,.20);
-        }
-
-
-        .clock-card::before {
-            content: "";
-
-            position: absolute;
-
-            top: 0;
-            left: 14%;
-
-            width: 72%;
-            height: 1px;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    transparent,
-                    rgba(210,181,255,.45),
-                    transparent
-                );
-
-            opacity: .7;
-        }
-
-
-        .clock-left {
-            display: flex;
-
-            align-items: center;
-
-            gap: 11px;
-        }
-
-
-        .clock-icon {
-            width: 36px;
-            height: 36px;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 11px;
-
-            background:
-                linear-gradient(
-                    145deg,
-                    rgba(167,139,250,.19),
-                    rgba(239,169,203,.07)
-                );
-
-            border:
-                1px solid
-                rgba(189,158,250,.16);
-
-            color: #c5a9f2;
-
-            box-shadow:
-                0 0 20px
-                rgba(167,139,250,.09);
-        }
-
-
-        .clock-info {
-            text-align: left;
-        }
-
-
-        .clock-label {
-            display: block;
-
-            color: #83798f;
-
-            font-size: 9px;
-
-            text-transform: uppercase;
-
-            letter-spacing: 1.5px;
-
-            font-weight: 700;
-        }
-
-
-        .clock-time {
-            display: block;
-
-            margin-top: 2px;
-
-            color: #f0eaf5;
-
-            font-size: 14px;
-
-            font-weight: 600;
-        }
-
-
-        .clock-zone {
-            color: #83798e;
-
-            font-size: 10px;
-
-            line-height: 1.5;
-
-            text-align: right;
-        }
-
-
-        /* =========================================================
-           SECTION LABEL
-        ========================================================= */
-
-        .section-label {
-            display: flex;
-
-            align-items: center;
-
-            gap: 10px;
-
-            margin:
-                0
-                4px
-                12px;
-
-            color: #91879d;
-
-            font-size: 9px;
-
-            font-weight: 700;
-
-            text-transform: uppercase;
-
-            letter-spacing: 2px;
-        }
-
-
-        .section-label::after {
-            content: "";
-
-            height: 1px;
-
-            flex: 1;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    rgba(180,145,245,.18),
-                    transparent
-                );
-        }
-
-
-        /* =========================================================
-           SOCIAL LINKS
-        ========================================================= */
-
-        .links {
-            display: flex;
-
-            flex-direction: column;
-
-            gap: 10px;
-        }
-
-
-        .link {
-            position: relative;
-
-            min-height: 66px;
-
-            display: flex;
-
-            align-items: center;
-
-            padding:
-                0
-                17px;
-
-            overflow: hidden;
-
-            border-radius: 18px;
-
-            border:
-                1px solid
-                var(--border);
-
-            background:
-                linear-gradient(
-                    110deg,
-                    rgba(38,31,52,.82),
-                    rgba(20,18,28,.88)
-                );
-
-            color: var(--text);
-
-            text-decoration: none;
-
-            box-shadow:
-                inset 0 1px 0
-                    rgba(255,255,255,.045),
-
-                0 10px 30px
-                    rgba(0,0,0,.20);
-
-            transition:
-                transform .3s cubic-bezier(.16,1,.3,1),
-                border-color .3s ease,
-                box-shadow .3s ease;
-        }
-
-
-        /*
-            Permanent highlight.
-            This is what makes the cards visible before hover.
-        */
-
-        .link::before {
-            content: "";
-
-            position: absolute;
-
-            inset: 0;
-
-            background:
-                linear-gradient(
-                    105deg,
-                    rgba(167,139,250,.11),
-                    transparent 40%,
-                    rgba(239,169,203,.045)
-                );
-
-            pointer-events: none;
-        }
-
-
-        .link::after {
-            content: "";
-
-            position: absolute;
-
-            left: 0;
-            top: 18%;
-
-            width: 2px;
-            height: 64%;
-
-            border-radius: 10px;
-
-            background:
-                linear-gradient(
-                    180deg,
-                    transparent,
-                    var(--purple),
-                    var(--pink),
-                    transparent
-                );
-
-            opacity: .75;
-
-            box-shadow:
-                0 0 14px
-                rgba(167,139,250,.45);
-        }
-
-
-        .link:hover {
-            transform:
-                translateY(-3px)
-                scale(1.005);
-
-            border-color:
-                var(--border-strong);
-
-            box-shadow:
-                inset 0 1px 0
-                    rgba(255,255,255,.08),
-
-                0 17px 42px
-                    rgba(0,0,0,.36),
-
-                0 0 25px
-                    rgba(167,139,250,.07);
-        }
-
-
-        .link-icon {
-            position: relative;
-            z-index: 1;
-
-            width: 41px;
-            height: 41px;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            margin-right: 13px;
-
-            border-radius: 12px;
-
-            background:
-                linear-gradient(
-                    145deg,
-                    rgba(167,139,250,.15),
-                    rgba(255,255,255,.045)
-                );
-
-            border:
-                1px solid
-                rgba(200,170,255,.13);
-
-            color: #e0d8e9;
-
-            font-size: 16px;
-
-            box-shadow:
-                inset 0 1px 0
-                    rgba(255,255,255,.055),
-
-                0 5px 18px
-                    rgba(0,0,0,.18);
-
-            transition:
-                transform .3s ease,
-                background .3s ease,
-                color .3s ease;
-        }
-
-
-        .link:hover .link-icon {
-            transform: scale(1.05);
-        }
-
-
-        .link-info {
-            position: relative;
-            z-index: 1;
-
-            display: flex;
-
-            flex-direction: column;
-
-            gap: 3px;
-
-            text-align: left;
-        }
-
-
-        .link-title {
-            color: #f3edf7;
-
-            font-size: 13px;
-
-            font-weight: 600;
-        }
-
-
-        .link-subtitle {
-            color: #91899b;
-
-            font-size: 10px;
-        }
-
-
-        .link-arrow {
-            position: relative;
-            z-index: 1;
-
-            margin-left: auto;
-
-            color: #81788d;
-
-            font-size: 10px;
-
-            transition:
-                transform .3s ease,
-                color .3s ease;
-        }
-
-
-        .link:hover .link-arrow {
-            transform: translateX(4px);
-
-            color: #c9b7dc;
-        }
-
-
-        /* DISCORD */
-
-        .discord {
-            box-shadow:
-                inset 0 1px 0 rgba(255,255,255,.045),
-                0 10px 30px rgba(0,0,0,.20),
-                0 0 25px rgba(88,101,242,.035);
-        }
-
-
-        .discord .link-icon {
-            background:
-                linear-gradient(
-                    145deg,
-                    rgba(88,101,242,.22),
-                    rgba(88,101,242,.055)
-                );
-
-            color: #aeb4ff;
-
-            border-color:
-                rgba(120,130,255,.18);
-        }
-
-
-        .discord:hover {
-            border-color:
-                rgba(110,120,255,.32);
-        }
-
-
-        /* ROBLOX */
-
-        .roblox .link-icon {
-            background:
-                linear-gradient(
-                    145deg,
-                    rgba(255,255,255,.13),
-                    rgba(255,255,255,.035)
-                );
-
-            border-color:
-                rgba(255,255,255,.13);
-        }
-
-
-        .roblox-logo {
-            width: 18px;
-            height: 18px;
-
-            filter:
-                brightness(0)
-                invert(1);
-
-            opacity: .9;
-        }
-
-
-        .roblox:hover {
-            border-color:
-                rgba(255,255,255,.24);
-        }
-
-
-        /* SPOTIFY */
-
-        .spotify .link-icon {
-            background:
-                linear-gradient(
-                    145deg,
-                    rgba(29,185,84,.17),
-                    rgba(29,185,84,.035)
-                );
-
-            color: #9be6b0;
-
-            border-color:
-                rgba(77,214,117,.15);
-        }
-
-
-        .spotify:hover {
-            border-color:
-                rgba(77,214,117,.27);
-        }
-
-
-        /* =========================================================
-           LITTLE THINGS
-        ========================================================= */
-
-        .tools {
-            margin-top: 23px;
-        }
-
-
-        .tool-grid {
-            display: grid;
-
-            grid-template-columns:
-                1fr 1fr;
-
-            gap: 10px;
-        }
-
-
-        .tool {
-            position: relative;
-
-            min-height: 62px;
-
-            padding:
-                12px
-                13px;
-
-            border-radius: 17px;
-
-            border:
-                1px solid
-                rgba(177,143,239,.12);
-
-            background:
-                linear-gradient(
-                    120deg,
-                    rgba(37,31,48,.72),
-                    rgba(18,16,25,.86)
-                );
-
-            color: #ddd6e5;
-
-            font-family: inherit;
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 10px;
-
-            text-align: left;
-
-            cursor: pointer;
-
-            box-shadow:
-                inset 0 1px 0
-                    rgba(255,255,255,.035);
-
-            transition:
-                transform .25s ease,
-                border-color .25s ease,
-                background .25s ease,
-                box-shadow .25s ease;
-        }
-
-
-        .tool:hover {
-            transform:
-                translateY(-2px);
-
-            border-color:
-                rgba(177,143,239,.28);
-
-            background:
-                linear-gradient(
-                    120deg,
-                    rgba(48,39,64,.84),
-                    rgba(22,19,30,.92)
-                );
-
-            box-shadow:
-                0 12px 28px
-                    rgba(0,0,0,.25),
-
-                0 0 20px
-                    rgba(167,139,250,.06);
-        }
-
-
-        .tool-icon {
-            width: 33px;
-            height: 33px;
-
-            flex-shrink: 0;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 10px;
-
-            background:
-                linear-gradient(
-                    145deg,
-                    rgba(167,139,250,.16),
-                    rgba(255,255,255,.035)
-                );
-
-            border:
-                1px solid
-                rgba(190,160,250,.13);
-
-            color: #bda5e5;
-
-            font-size: 12px;
-        }
-
-
-        .tool-text {
-            display: flex;
-
-            flex-direction: column;
-
-            gap: 3px;
-        }
-
-
-        .tool-title {
-            color: #e9e2ee;
-
-            font-size: 11px;
-
-            font-weight: 600;
-        }
-
-
-        .tool-subtitle {
-            color: #81788b;
-
-            font-size: 9px;
-        }
-
-
-        /* =========================================================
-           FOOTER
-        ========================================================= */
-
-        footer {
-            text-align: center;
-
-            padding:
-                29px
-                0
-                4px;
-
-            color: #56505f;
-
-            font-size: 9px;
-
-            letter-spacing: .7px;
-        }
-
-
-        footer span {
-            color: #a38ac8;
-
-            text-shadow:
-                0 0 10px
-                rgba(163,138,200,.35);
-        }
-
-
-        /* =========================================================
-           TOAST
-        ========================================================= */
-
-        .toast {
-            position: fixed;
-
-            left: 50%;
-            bottom: 25px;
-
-            z-index: 100;
-
-            transform:
-                translate(-50%, 70px);
-
-            padding:
-                10px
-                16px;
-
-            border-radius: 50px;
-
-            border:
-                1px solid
-                rgba(190,157,255,.18);
-
-            background:
-                rgba(24,20,32,.96);
-
-            box-shadow:
-                0 15px 40px
-                rgba(0,0,0,.5),
-
-                0 0 20px
-                rgba(167,139,250,.07);
-
-            color: #eee8f4;
-
-            font-size: 11px;
-
-            font-weight: 600;
-
+<style>
+    @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css");
+
+    html,
+    body {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        min-width: 0 !important;
+        min-height: 0 !important;
+        background: #040308 !important;
+        color: #f8f5fc;
+        overflow: hidden !important;
+    }
+
+    .marie-profile,
+    .marie-profile * ,
+    .marie-profile *::before,
+    .marie-profile *::after {
+        box-sizing: border-box;
+    }
+
+    .marie-profile {
+        --bg: #040308;
+        --text: #f8f5fc;
+        --text-soft: #c9c2d3;
+        --muted: #8f879b;
+        --dim: #686173;
+
+        --purple: #a78bfa;
+        --purple-bright: #c4aaff;
+        --pink: #efa9cb;
+        --blue: #8fbfff;
+        --cyan: #82e9ff;
+
+        --border: rgba(190,157,255,.16);
+        --border-strong: rgba(190,157,255,.30);
+
+        position: relative;
+
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+
+        margin: 0 !important;
+        padding: 30px 20px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background:
+            radial-gradient(
+                circle at 50% 20%,
+                rgba(120, 85, 205, 0.15),
+                transparent 50%
+            ),
+            #040308;
+
+        overflow: hidden;
+        isolation: isolate;
+    }
+
+
+    /* =========================================================
+       SPACE & AURORA BACKGROUND
+    ========================================================= */
+
+    .marie-background {
+        position: absolute;
+        inset: 0;
+        z-index: -10;
+        overflow: hidden;
+        pointer-events: none;
+    }
+
+    .marie-stars-canvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .marie-ambient {
+        position: absolute;
+        width: 950px;
+        height: 950px;
+        top: -650px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 50%;
+        background:
+            radial-gradient(
+                circle,
+                rgba(183,137,250,.20),
+                rgba(143,100,240,.06) 45%,
+                transparent 75%
+            );
+        filter: blur(30px);
+        animation: marieAmbientPulse 9s ease-in-out infinite alternate;
+    }
+
+    @keyframes marieAmbientPulse {
+        from {
+            opacity: .5;
+            transform: translateX(-50%) scale(.9);
+        }
+        to {
+            opacity: 0.9;
+            transform: translateX(-50%) scale(1.1);
+        }
+    }
+
+    .marie-nebula {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: .35;
+        animation: marieNebulaFloat 16s ease-in-out infinite alternate;
+    }
+
+    .marie-nebula.one {
+        width: 520px;
+        height: 320px;
+        top: 2%;
+        left: -180px;
+        background: radial-gradient(ellipse, rgba(147, 91, 255, 0.25), transparent 70%);
+        transform: rotate(-25deg);
+    }
+
+    .marie-nebula.two {
+        width: 580px;
+        height: 360px;
+        top: 35%;
+        right: -240px;
+        background: radial-gradient(ellipse, rgba(76, 160, 255, 0.18), transparent 70%);
+        animation-delay: -5s;
+        transform: rotate(20deg);
+    }
+
+    .marie-nebula.three {
+        width: 500px;
+        height: 320px;
+        bottom: -60px;
+        left: 8%;
+        background: radial-gradient(ellipse, rgba(238, 91, 195, 0.18), transparent 70%);
+        animation-delay: -10s;
+    }
+
+    @keyframes marieNebulaFloat {
+        from {
+            transform: translate3d(0,0,0) rotate(-15deg) scale(0.95);
+        }
+        to {
+            transform: translate3d(40px,-30px,0) rotate(12deg) scale(1.1);
+        }
+    }
+
+
+    /* =========================================================
+       CONTENT
+    ========================================================= */
+
+    .marie-content {
+        width: 100%;
+        max-width: 470px;
+
+        margin: 0 auto;
+
+        position: relative;
+        z-index: 2;
+
+        flex-shrink: 0;
+
+        transform: scale(var(--marie-scale, 1));
+        transform-origin: center center;
+
+        animation: mariePageIn .8s cubic-bezier(.16,1,.3,1);
+    }
+
+    @keyframes mariePageIn {
+        from {
             opacity: 0;
-
-            pointer-events: none;
-
-            transition:
-                opacity .3s ease,
-                transform .4s cubic-bezier(.16,1,.3,1);
+            transform: scale(var(--marie-scale, 1)) translateY(20px);
         }
-
-
-        .toast.show {
+        to {
             opacity: 1;
-
-            transform:
-                translate(-50%, 0);
+            transform: scale(var(--marie-scale, 1)) translateY(0);
         }
+    }
 
 
-        .toast i {
-            color: #b99bea;
+    /* =========================================================
+       PROFILE HEADER
+    ========================================================= */
 
-            margin-right: 7px;
+    .marie-profile-header {
+        text-align: center;
+        padding: 10px 10px 24px;
+    }
+
+    .marie-avatar-wrap {
+        width: 118px;
+        height: 118px;
+        margin: 0 auto 23px;
+        position: relative;
+    }
+
+    .marie-avatar-glow {
+        position: absolute;
+        inset: -16px;
+        border-radius: 50%;
+        background:
+            radial-gradient(
+                circle,
+                rgba(167,139,250,.35),
+                rgba(240,166,200,.15) 45%,
+                transparent 70%
+            );
+        filter: blur(14px);
+        animation: marieAvatarGlow 5s ease-in-out infinite alternate;
+    }
+
+    @keyframes marieAvatarGlow {
+        from {
+            opacity: .55;
+            transform: scale(.94);
         }
-
-
-        /* =========================================================
-           MOBILE
-        ========================================================= */
-
-        @media (max-width: 520px) {
-
-            body {
-                padding:
-                    35px
-                    15px;
-            }
-
-
-            .name {
-                font-size: 39px;
-            }
-
+        to {
+            opacity: 1;
+            transform: scale(1.08);
         }
+    }
 
+    .marie-avatar-ring {
+        position: absolute;
+        inset: -7px;
+        border-radius: 50%;
+        background:
+            conic-gradient(
+                from 220deg,
+                rgba(143,191,255,.55),
+                rgba(239,169,203,.42),
+                rgba(196,170,255,.28),
+                rgba(130,233,255,.45),
+                rgba(143,191,255,.55)
+            );
+        opacity: .75;
+        filter: blur(2px);
+        animation: marieRingRotate 14s linear infinite;
+        box-shadow:
+            0 0 10px rgba(167,139,250,.18),
+            0 0 22px rgba(143,191,255,.10),
+            0 0 32px rgba(239,169,203,.07);
+    }
 
-        @media (max-width: 360px) {
+    .marie-avatar-ring::before {
+        content: "";
+        position: absolute;
+        inset: -8px;
+        border-radius: 50%;
+        background:
+            conic-gradient(
+                from 220deg,
+                rgba(143,191,255,.25),
+                rgba(239,169,203,.18),
+                rgba(196,170,255,.10),
+                rgba(130,233,255,.20),
+                rgba(143,191,255,.25)
+            );
+        filter: blur(10px);
+        opacity: .7;
+        z-index: -1;
+    }
 
-            .tool-grid {
-                grid-template-columns:
-                    1fr;
-            }
-
+    @keyframes marieRingRotate {
+        to {
+            transform: rotate(360deg);
         }
+    }
+
+    .marie-avatar {
+        position: relative;
+        width: 118px;
+        height: 118px;
+        display: block;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 2px solid rgba(9,8,13,.9);
+        box-shadow: 0 18px 55px rgba(0,0,0,.65);
+    }
+
+    .marie-name {
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 44px;
+        line-height: 1;
+        font-weight: 600;
+        letter-spacing: -1.7px;
+        margin: 0 0 14px;
+        background: linear-gradient(115deg, #ffffff 10%, #f1e9fb 48%, #d7b8ee 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: 0 0 35px rgba(182,142,241,.10);
+    }
+
+    .marie-identity {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 12px;
+        font-size: 13px;
+    }
+
+    .marie-identity strong {
+        color: #eee8f4;
+        font-weight: 600;
+    }
+
+    .marie-identity .dot {
+        color: #635a6e;
+    }
+
+    .marie-bio {
+        max-width: 350px;
+        margin: auto;
+        color: #b0a8bb;
+        font-size: 13px;
+        line-height: 1.7;
+        font-weight: 500;
+    }
+
+    .marie-location {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        margin-top: 15px;
+        color: #847b91;
+        font-size: 11px;
+        letter-spacing: .4px;
+    }
+
+    .marie-location-icon {
+        color: var(--pink);
+        font-size: 10px;
+        filter: drop-shadow(0 0 7px rgba(239,169,203,.45));
+    }
 
 
-        @media (prefers-reduced-motion: reduce) {
+    /* =========================================================
+       CLOCK
+    ========================================================= */
 
-            *,
-            *::before,
-            *::after {
-                animation-duration: .01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: .01ms !important;
-            }
+    .marie-clock-card {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 3px 0 22px;
+        padding: 14px 16px;
+        overflow: hidden;
+        border-radius: 18px;
+        border: 1px solid rgba(180,145,245,.15);
+        background:
+            linear-gradient(
+                110deg,
+                rgba(131,96,190,.12),
+                rgba(255,255,255,.035) 55%,
+                rgba(215,132,181,.055)
+            );
+        box-shadow:
+            inset 0 1px 0 rgba(255,255,255,.055),
+            0 15px 40px rgba(0,0,0,.20);
+    }
 
+    .marie-clock-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 14%;
+        width: 72%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(210,181,255,.45), transparent);
+        opacity: .7;
+    }
+
+    .marie-clock-left {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+    }
+
+    .marie-clock-icon {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 11px;
+        background: linear-gradient(145deg, rgba(167,139,250,.19), rgba(239,169,203,.07));
+        border: 1px solid rgba(189,158,250,.16);
+        color: #c5a9f2;
+        box-shadow: 0 0 20px rgba(167,139,250,.09);
+    }
+
+    .marie-clock-info {
+        text-align: left;
+    }
+
+    .marie-clock-label {
+        display: block;
+        color: #83798f;
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        font-weight: 700;
+    }
+
+    .marie-clock-time {
+        display: block;
+        margin-top: 2px;
+        color: #f0eaf5;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .marie-clock-zone {
+        color: #83798e;
+        font-size: 10px;
+        line-height: 1.5;
+        text-align: right;
+    }
+
+
+    /* =========================================================
+       SECTION LABEL
+    ========================================================= */
+
+    .marie-section-label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0 4px 12px;
+        color: #91879d;
+        font-size: 9px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .marie-section-label::after {
+        content: "";
+        height: 1px;
+        flex: 1;
+        background: linear-gradient(90deg, rgba(180,145,245,.18), transparent);
+    }
+
+
+    /* =========================================================
+       SOCIAL LINKS
+    ========================================================= */
+
+    .marie-links {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .marie-link {
+        position: relative;
+        min-height: 62px;
+        display: flex;
+        align-items: center;
+        padding: 0 17px;
+        overflow: hidden;
+        border-radius: 18px;
+        border: 1px solid var(--border);
+        background: linear-gradient(110deg, rgba(38,31,52,.82), rgba(20,18,28,.88));
+        color: var(--text);
+        text-decoration: none;
+        box-shadow:
+            inset 0 1px 0 rgba(255,255,255,.045),
+            0 10px 30px rgba(0,0,0,.20);
+        transition: transform .3s cubic-bezier(.16,1,.3,1), border-color .3s ease, box-shadow .3s ease;
+    }
+
+    .marie-link::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(105deg, rgba(167,139,250,.11), transparent 40%, rgba(239,169,203,.045));
+        pointer-events: none;
+    }
+
+    .marie-link::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 18%;
+        width: 2px;
+        height: 64%;
+        border-radius: 10px;
+        background: linear-gradient(180deg, transparent, var(--purple), var(--pink), transparent);
+        opacity: .75;
+        box-shadow: 0 0 14px rgba(167,139,250,.45);
+    }
+
+    .marie-link:hover {
+        transform: translateY(-3px) scale(1.005);
+        border-color: var(--border-strong);
+        box-shadow:
+            inset 0 1px 0 rgba(255,255,255,.08),
+            0 17px 42px rgba(0,0,0,.36),
+            0 0 25px rgba(167,139,250,.07);
+    }
+
+    .marie-link-icon {
+        position: relative;
+        z-index: 1;
+        width: 39px;
+        height: 39px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 13px;
+        border-radius: 12px;
+        background: linear-gradient(145deg, rgba(167,139,250,.15), rgba(255,255,255,.045));
+        border: 1px solid rgba(200,170,255,.13);
+        color: #e0d8e9;
+        font-size: 16px;
+        box-shadow:
+            inset 0 1px 0 rgba(255,255,255,.055),
+            0 5px 18px rgba(0,0,0,.18);
+        transition: transform .3s ease, background .3s ease, color .3s ease;
+    }
+
+    .marie-link:hover .marie-link-icon {
+        transform: scale(1.05);
+    }
+
+    .marie-link-info {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        text-align: left;
+    }
+
+    .marie-link-title {
+        color: #f3edf7;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .marie-link-subtitle {
+        color: #91899b;
+        font-size: 10px;
+    }
+
+    .marie-link-arrow {
+        position: relative;
+        z-index: 1;
+        margin-left: auto;
+        color: #81788d;
+        font-size: 10px;
+        transition: transform .3s ease, color .3s ease;
+    }
+
+    .marie-link:hover .marie-link-arrow {
+        transform: translateX(4px);
+        color: #c9b7dc;
+    }
+
+
+    /* =========================================================
+       DISCORD
+    ========================================================= */
+
+    .marie-discord {
+        box-shadow:
+            inset 0 1px 0 rgba(255,255,255,.045),
+            0 10px 30px rgba(0,0,0,.20),
+            0 0 25px rgba(88,101,242,.035);
+    }
+
+    .marie-discord .marie-link-icon {
+        background: linear-gradient(145deg, rgba(88,101,242,.22), rgba(88,101,242,.055));
+        color: #aeb4ff;
+        border-color: rgba(120,130,255,.18);
+    }
+
+    .marie-discord:hover {
+        border-color: rgba(110,120,255,.32);
+    }
+
+
+    /* =========================================================
+       ROBLOX
+    ========================================================= */
+
+    .marie-roblox .marie-link-icon {
+        background: linear-gradient(145deg, rgba(255,255,255,.13), rgba(255,255,255,.035));
+        border-color: rgba(255,255,255,.13);
+    }
+
+    .marie-roblox-logo {
+        width: 18px;
+        height: 18px;
+        filter: brightness(0) invert(1);
+        opacity: .9;
+    }
+
+    .marie-roblox:hover {
+        border-color: rgba(255,255,255,.24);
+    }
+
+
+    /* =========================================================
+       SPOTIFY
+    ========================================================= */
+
+    .marie-spotify .marie-link-icon {
+        background: linear-gradient(145deg, rgba(29,185,84,.17), rgba(29,185,84,.035));
+        color: #9be6b0;
+        border-color: rgba(77,214,117,.15);
+    }
+
+    .marie-spotify:hover {
+        border-color: rgba(77,214,117,.27);
+    }
+
+
+    /* =========================================================
+       INSTAGRAM
+    ========================================================= */
+
+    .marie-instagram .marie-link-icon {
+        background: linear-gradient(145deg, rgba(225,48,108,.20), rgba(225,48,108,.04));
+        color: #f7a3c3;
+        border-color: rgba(225,48,108,.22);
+    }
+
+    .marie-instagram:hover {
+        border-color: rgba(225,48,108,.35);
+    }
+
+
+    /* =========================================================
+       LITTLE THINGS
+    ========================================================= */
+
+    .marie-tools {
+        margin-top: 20px;
+    }
+
+    .marie-tool-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .marie-tool {
+        position: relative;
+        min-height: 58px;
+        padding: 10px 12px;
+        border-radius: 16px;
+        border: 1px solid rgba(177,143,239,.12);
+        background: linear-gradient(120deg, rgba(37,31,48,.72), rgba(18,16,25,.86));
+        color: #ddd6e5;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-align: left;
+        cursor: pointer;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.035);
+        transition: transform .25s ease, border-color .25s ease, background .25s ease, box-shadow .25s ease;
+    }
+
+    .marie-tool:hover {
+        transform: translateY(-2px);
+        border-color: rgba(177,143,239,.28);
+        background: linear-gradient(120deg, rgba(48,39,64,.84), rgba(22,19,30,.92));
+        box-shadow:
+            0 12px 28px rgba(0,0,0,.25),
+            0 0 20px rgba(167,139,250,.06);
+    }
+
+    .marie-tool-icon {
+        width: 32px;
+        height: 32px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        background: linear-gradient(145deg, rgba(167,139,250,.16), rgba(255,255,255,.035));
+        border: 1px solid rgba(190,160,250,.13);
+        color: #bda5e5;
+        font-size: 12px;
+    }
+
+    .marie-tool-icon img {
+        width: 15px;
+        height: 15px;
+        object-fit: contain;
+        display: block;
+        filter: brightness(0) invert(1);
+        opacity: .82;
+    }
+
+    .marie-tool-text {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        min-width: 0;
+    }
+
+    .marie-tool-title {
+        color: #e9e2ee;
+        font-size: 11px;
+        font-weight: 600;
+    }
+
+    .marie-tool-subtitle {
+        color: #81788b;
+        font-size: 9px;
+    }
+
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+
+    .marie-footer {
+        text-align: center;
+        padding: 24px 0 4px;
+        color: #56505f;
+        font-size: 9px;
+        letter-spacing: .7px;
+    }
+
+    .marie-footer span {
+        color: #a38ac8;
+        text-shadow: 0 0 10px rgba(163,138,200,.35);
+    }
+
+
+    /* =========================================================
+       TOAST
+    ========================================================= */
+
+    .marie-toast {
+        position: fixed;
+        left: 50%;
+        bottom: 25px;
+        z-index: 100;
+        transform: translate(-50%,70px);
+        padding: 10px 16px;
+        border-radius: 50px;
+        border: 1px solid rgba(190,157,255,.18);
+        background: rgba(24,20,32,.96);
+        box-shadow:
+            0 15px 40px rgba(0,0,0,.5),
+            0 0 20px rgba(167,139,250,.07);
+        color: #eee8f4;
+        font-size: 11px;
+        font-weight: 600;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .3s ease, transform .4s cubic-bezier(.16,1,.3,1);
+    }
+
+    .marie-toast.show {
+        opacity: 1;
+        transform: translate(-50%,0);
+    }
+
+    .marie-toast-check {
+        color: #b99bea;
+        margin-right: 7px;
+    }
+
+
+    /* =========================================================
+       RESPONSIVE & ACCESSIBILITY
+    ========================================================= */
+
+    @media (max-width: 520px) {
+        .marie-profile {
+            padding: 20px 15px;
         }
+        .marie-name {
+            font-size: 39px;
+        }
+    }
 
-    </style>
-</head>
+    @media (max-width: 360px) {
+        .marie-tool-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .marie-profile *,
+        .marie-profile *::before,
+        .marie-profile *::after {
+            animation-duration: .01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: .01ms !important;
+        }
+        .marie-stars-canvas {
+            display: none;
+        }
+    }
+</style>
 
 
-<body>
+<div class="marie-profile">
 
-    <div class="background">
-        <div class="ambient"></div>
-        <div class="stars"></div>
+    <div class="marie-background">
+        <canvas class="marie-stars-canvas" id="marieStarsCanvas"></canvas>
+        <div class="marie-ambient"></div>
+        <div class="marie-nebula one"></div>
+        <div class="marie-nebula two"></div>
+        <div class="marie-nebula three"></div>
     </div>
 
-    <div class="grain"></div>
 
+    <main class="marie-content">
 
-    <main class="page">
-
-
-        <!-- PROFILE -->
-
-        <section class="profile">
-
-            <div class="avatar-wrap">
-
-                <div class="avatar-glow"></div>
-                <div class="avatar-ring"></div>
-
+        <section class="marie-profile-header">
+            <div class="marie-avatar-wrap">
+                <div class="marie-avatar-glow"></div>
+                <div class="marie-avatar-ring"></div>
                 <img
-                    class="avatar"
-                    src="https://lh3.googleusercontent.com/d/1iwzToyV8lFgr7TeKMuds3kDrl6YTuWfz"
+                    class="marie-avatar"
+                    src="https://lh3.googleusercontent.com/d/1KjjhnX6aVYCMT_u4kOy-XjOhjOuzLyO6"
                     alt="Marie"
                 >
-
             </div>
 
-
-            <h1 class="name">
+            <h1 class="marie-name">
                 Marie
             </h1>
 
-
-            <div class="identity">
-
+            <div class="marie-identity">
                 <strong>she / her</strong>
-
                 <span class="dot">·</span>
-
                 <strong>transfem</strong>
-
                 <span class="dot">·</span>
-
                 <strong>furry</strong>
-
             </div>
 
-
-            <div class="bio-description">
+            <div class="marie-bio">
                 you can find me around the internet ↓
             </div>
 
-
-            <div class="location">
-
-                <i class="fa-solid fa-location-dot"></i>
-
+            <div class="marie-location">
+                <span class="marie-location-icon">✦</span>
                 Quebec, Canada
-
             </div>
-
         </section>
 
 
-        <!-- CLOCK -->
-
-        <section class="clock-card">
-
-            <div class="clock-left">
-
-                <div class="clock-icon">
-                    <i class="fa-regular fa-clock"></i>
+        <section class="marie-clock-card">
+            <div class="marie-clock-left">
+                <div class="marie-clock-icon">
+                    ◷
                 </div>
-
-
-                <div class="clock-info">
-
-                    <span class="clock-label">
+                <div class="marie-clock-info">
+                    <span class="marie-clock-label">
                         Local time
                     </span>
-
-                    <span
-                        class="clock-time"
-                        id="quebecTime"
-                    >
+                    <span class="marie-clock-time" id="marieQuebecTime">
                         --:--:--
                     </span>
-
                 </div>
-
             </div>
 
-
-            <div class="clock-zone">
-
+            <div class="marie-clock-zone">
                 EDT<br>
-
                 UTC−4
-
             </div>
-
         </section>
 
 
-        <!-- LINKS -->
-
         <section>
-
-            <div class="section-label">
+            <div class="marie-section-label">
                 Find me
             </div>
 
-
-            <div class="links">
-
-
-                <!-- DISCORD -->
-
+            <div class="marie-links">
                 <a
                     href="https://discord.com/users/544246551455858709"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="link discord"
+                    class="marie-link marie-discord"
                 >
-
-                    <div class="link-icon">
-
+                    <div class="marie-link-icon">
                         <i class="fa-brands fa-discord"></i>
-
                     </div>
-
-
-                    <div class="link-info">
-
-                        <span class="link-title">
-                            Discord
-                        </span>
-
-                        <span class="link-subtitle">
-                            Come say hi
-                        </span>
-
+                    <div class="marie-link-info">
+                        <span class="marie-link-title">Discord</span>
+                        <span class="marie-link-subtitle">Come bother me</span>
                     </div>
-
-
-                    <i
-                        class="fa-solid fa-arrow-up-right-from-square link-arrow"
-                    ></i>
-
+                    <span class="marie-link-arrow">↗</span>
                 </a>
-
-
-                <!-- ROBLOX -->
 
                 <a
                     href="https://www.roblox.com/users/86445196/profile"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="link roblox"
+                    class="marie-link marie-roblox"
                 >
-
-                    <div class="link-icon">
-
+                    <div class="marie-link-icon">
                         <img
-                            class="roblox-logo"
+                            class="marie-roblox-logo"
                             src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Roblox_Logo.svg"
                             alt="Roblox"
                         >
-
                     </div>
-
-
-                    <div class="link-info">
-
-                        <span class="link-title">
-                            Roblox
-                        </span>
-
-                        <span class="link-subtitle">
-                            Games & stuff
-                        </span>
-
+                    <div class="marie-link-info">
+                        <span class="marie-link-title">Roblox</span>
+                        <span class="marie-link-subtitle">Where I waste my time</span>
                     </div>
-
-
-                    <i
-                        class="fa-solid fa-arrow-up-right-from-square link-arrow"
-                    ></i>
-
+                    <span class="marie-link-arrow">↗</span>
                 </a>
-
-
-                <!-- SPOTIFY -->
 
                 <a
-                    href="https://open.spotify.com/user/ct0r1o0zjos4gq7aicolbt16o"
+                    href="https://open.spotify.com/user/ct0r1o0zjos4gq7aicolbt16o?si=4d944a89ba1c4c3b"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="link spotify"
+                    class="marie-link marie-spotify"
                 >
-
-                    <div class="link-icon">
-
+                    <div class="marie-link-icon">
                         <i class="fa-brands fa-spotify"></i>
-
                     </div>
-
-
-                    <div class="link-info">
-
-                        <span class="link-title">
-                            Spotify
-                        </span>
-
-                        <span class="link-subtitle">
-                            What I'm listening to
-                        </span>
-
+                    <div class="marie-link-info">
+                        <span class="marie-link-title">Spotify</span>
+                        <span class="marie-link-subtitle">My questionable music taste</span>
                     </div>
-
-
-                    <i
-                        class="fa-solid fa-arrow-up-right-from-square link-arrow"
-                    ></i>
-
+                    <span class="marie-link-arrow">↗</span>
                 </a>
 
+                <a
+                    href="https://www.instagram.com/maire_lyons_lover/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="marie-link marie-instagram"
+                >
+                    <div class="marie-link-icon">
+                        <i class="fa-brands fa-instagram"></i>
+                    </div>
+                    <div class="marie-link-info">
+                        <span class="marie-link-title">Instagram</span>
+                        <span class="marie-link-subtitle">My Public Profile</span>
+                    </div>
+                    <span class="marie-link-arrow">↗</span>
+                </a>
             </div>
-
         </section>
 
 
-        <!-- TOOLS -->
-
-        <section class="tools">
-
-            <div class="section-label">
+        <section class="marie-tools">
+            <div class="marie-section-label">
                 Little things
             </div>
 
-
-            <div class="tool-grid">
-
-
+            <div class="marie-tool-grid">
                 <button
-                    class="tool"
-                    onclick="copyText(
-                        '544246551455858709',
-                        'Discord ID'
-                    )"
+                    type="button"
+                    class="marie-tool"
+                    onclick="marieCopyText('544246551455858709', 'Discord ID')"
                 >
-
-                    <div class="tool-icon">
+                    <div class="marie-tool-icon">
                         <i class="fa-brands fa-discord"></i>
                     </div>
-
-
-                    <div class="tool-text">
-
-                        <span class="tool-title">
-                            Discord ID
-                        </span>
-
-                        <span class="tool-subtitle">
-                            Copy to clipboard
-                        </span>
-
+                    <div class="marie-tool-text">
+                        <span class="marie-tool-title">Discord ID</span>
+                        <span class="marie-tool-subtitle">Copy to clipboard</span>
                     </div>
-
                 </button>
 
-
                 <button
-                    class="tool"
-                    onclick="copyText(
-                        'https://www.roblox.com/users/86445196/profile',
-                        'Roblox link'
-                    )"
+                    type="button"
+                    class="marie-tool"
+                    onclick="marieCopyText('https://www.roblox.com/users/86445196/profile', 'Roblox link')"
                 >
-
-                    <div class="tool-icon">
-                        <i class="fa-solid fa-gamepad"></i>
+                    <div class="marie-tool-icon">
+                        <img
+                            src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Roblox_Logo.svg"
+                            alt="Roblox"
+                        >
                     </div>
-
-
-                    <div class="tool-text">
-
-                        <span class="tool-title">
-                            Roblox link
-                        </span>
-
-                        <span class="tool-subtitle">
-                            Copy to clipboard
-                        </span>
-
+                    <div class="marie-tool-text">
+                        <span class="marie-tool-title">Roblox link</span>
+                        <span class="marie-tool-subtitle">Copy to clipboard</span>
                     </div>
-
                 </button>
 
-
                 <button
-                    class="tool"
-                    onclick="copyText(
-                        'https://open.spotify.com/user/ct0r1o0zjos4gq7aicolbt16o',
-                        'Spotify link'
-                    )"
+                    type="button"
+                    class="marie-tool"
+                    onclick="marieCopyText('https://open.spotify.com/user/ct0r1o0zjos4gq7aicolbt16o?si=4d944a89ba1c4c3b', 'Spotify link')"
                 >
-
-                    <div class="tool-icon">
+                    <div class="marie-tool-icon">
                         <i class="fa-brands fa-spotify"></i>
                     </div>
-
-
-                    <div class="tool-text">
-
-                        <span class="tool-title">
-                            Spotify link
-                        </span>
-
-                        <span class="tool-subtitle">
-                            Copy to clipboard
-                        </span>
-
+                    <div class="marie-tool-text">
+                        <span class="marie-tool-title">Spotify link</span>
+                        <span class="marie-tool-subtitle">Copy to clipboard</span>
                     </div>
-
                 </button>
-
 
                 <button
-                    class="tool"
-                    onclick="copyText(
-                        window.location.href,
-                        'Profile link'
-                    )"
+                    type="button"
+                    class="marie-tool"
+                    onclick="marieCopyProfile()"
                 >
-
-                    <div class="tool-icon">
-                        <i class="fa-solid fa-link"></i>
+                    <div class="marie-tool-icon">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
                     </div>
-
-
-                    <div class="tool-text">
-
-                        <span class="tool-title">
-                            Share profile
-                        </span>
-
-                        <span class="tool-subtitle">
-                            Copy page link
-                        </span>
-
+                    <div class="marie-tool-text">
+                        <span class="marie-tool-title">Share profile</span>
+                        <span class="marie-tool-subtitle">Copy page link</span>
                     </div>
-
                 </button>
-
             </div>
-
         </section>
 
 
-        <footer>
+        <footer class="marie-footer">
             made with <span>♡</span> by Marie
         </footer>
 
     </main>
 
 
-    <!-- TOAST -->
-
-    <div
-        class="toast"
-        id="toast"
-    >
-
-        <i class="fa-solid fa-check"></i>
-
-        <span id="toastText">
-            Copied!
-        </span>
-
+    <div class="marie-toast" id="marieToast">
+        <span class="marie-toast-check">✓</span>
+        <span id="marieToastText">Copied!</span>
     </div>
 
+</div>
 
-    <script>
 
-        /* =========================================================
-           CLOCK
-        ========================================================= */
+<script>
+(function () {
 
-        function updateTime() {
+    /* =========================================================
+       DYNAMIC STARFIELD, SOFT AURORA WISPS & METEORS
+    ========================================================= */
 
-            const options = {
+    var canvas = document.getElementById('marieStarsCanvas');
+    if (canvas && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        var ctx = canvas.getContext('2d');
+        var width, height;
+        var stars = [];
+        var meteors = [];
+        var starColors = ['#ffffff', '#bda0ff', '#f2afd2', '#9fc9ff', '#9cefff'];
+        var auroraTime = 0;
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            initStars();
+        }
+
+        function initStars() {
+            stars = [];
+            var count = Math.floor((width * height) / 4000);
+            for (var i = 0; i < count; i++) {
+                var isSparkle = Math.random() < 0.08;
+                stars.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    radius: isSparkle ? Math.random() * 1.6 + 1.2 : Math.random() * 1.1 + 0.3,
+                    color: starColors[Math.floor(Math.random() * starColors.length)],
+                    alpha: Math.random(),
+                    speed: Math.random() * 0.015 + 0.005,
+                    phase: Math.random() * Math.PI * 2,
+                    isSparkle: isSparkle,
+                    driftX: (Math.random() - 0.5) * 0.08,
+                    driftY: (Math.random() - 0.5) * 0.05
+                });
+            }
+        }
+
+        function createMeteor() {
+            meteors.push({
+                x: Math.random() * width * 1.1 - width * 0.05,
+                y: Math.random() * height * 0.45 - 20,
+                length: Math.random() * 90 + 110,
+                speed: Math.random() * 7 + 8,
+                angle: Math.PI / 4 + (Math.random() - 0.5) * 0.25,
+                alpha: 1,
+                decay: Math.random() * 0.015 + 0.01,
+                width: Math.random() * 1.4 + 1
+            });
+        }
+
+        function scheduleMeteor() {
+            var delay = 1000 + Math.random() * 2500;
+            if (Math.random() < 0.25) {
+                createMeteor();
+                setTimeout(createMeteor, 150 + Math.random() * 300);
+            } else {
+                createMeteor();
+            }
+            setTimeout(scheduleMeteor, delay);
+        }
+
+        function drawSoftAurora() {
+            auroraTime += 0.003;
+
+            var wisps = [
+                {
+                    x: width * 0.3 + Math.sin(auroraTime * 0.7) * (width * 0.15),
+                    y: height * 0.25 + Math.cos(auroraTime * 0.5) * (height * 0.1),
+                    rx: width * 0.45,
+                    ry: height * 0.2,
+                    color1: 'rgba(80, 240, 180, ',
+                    color2: 'rgba(120, 110, 255, '
+                },
+                {
+                    x: width * 0.7 + Math.cos(auroraTime * 0.6) * (width * 0.15),
+                    y: height * 0.55 + Math.sin(auroraTime * 0.8) * (height * 0.12),
+                    rx: width * 0.4,
+                    ry: height * 0.25,
+                    color1: 'rgba(170, 100, 255, ',
+                    color2: 'rgba(240, 120, 200, '
+                },
+                {
+                    x: width * 0.4 + Math.sin(auroraTime * 0.4) * (width * 0.2),
+                    y: height * 0.75 + Math.cos(auroraTime * 0.6) * (height * 0.1),
+                    rx: width * 0.5,
+                    ry: height * 0.22,
+                    color1: 'rgba(70, 220, 240, ',
+                    color2: 'rgba(100, 230, 180, '
+                }
+            ];
+
+            ctx.save();
+            if (ctx.filter) {
+                ctx.filter = 'blur(40px)';
+            }
+
+            for (var i = 0; i < wisps.length; i++) {
+                var w = wisps[i];
+                var pulse = 0.08 + Math.sin(auroraTime * 1.2 + i * 2) * 0.03;
+
+                var grad = ctx.createRadialGradient(w.x, w.y, 10, w.x, w.y, w.rx);
+                grad.addColorStop(0, w.color1 + pulse + ')');
+                grad.addColorStop(0.5, w.color2 + (pulse * 0.5) + ')');
+                grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+                ctx.save();
+                ctx.translate(w.x, w.y);
+                ctx.scale(1, w.ry / w.rx);
+                ctx.translate(-w.x, -w.y);
+
+                ctx.fillStyle = grad;
+                ctx.beginPath();
+                ctx.arc(w.x, w.y, w.rx, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+
+            ctx.restore();
+        }
+
+        function drawCrossSparkle(x, y, size, alpha, color) {
+            ctx.save();
+            ctx.strokeStyle = color;
+            ctx.globalAlpha = alpha;
+            ctx.lineWidth = 0.8;
+            ctx.beginPath();
+            ctx.moveTo(x - size, y);
+            ctx.lineTo(x + size, y);
+            ctx.moveTo(x, y - size);
+            ctx.lineTo(x, y + size);
+            ctx.stroke();
+            ctx.restore();
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+
+            drawSoftAurora();
+
+            for (var i = 0; i < stars.length; i++) {
+                var s = stars[i];
+                s.phase += s.speed;
+                var currentAlpha = 0.25 + (Math.sin(s.phase) + 1) * 0.375;
+                
+                s.x += s.driftX;
+                s.y += s.driftY;
+                if (s.x < 0) s.x = width;
+                if (s.x > width) s.x = 0;
+                if (s.y < 0) s.y = height;
+                if (s.y > height) s.y = 0;
+
+                ctx.save();
+                ctx.globalAlpha = currentAlpha;
+                ctx.fillStyle = s.color;
+                ctx.shadowBlur = s.radius > 1 ? 8 : 0;
+                ctx.shadowColor = s.color;
+
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+
+                if (s.isSparkle && currentAlpha > 0.6) {
+                    drawCrossSparkle(s.x, s.y, s.radius * 4, currentAlpha * 0.7, s.color);
+                }
+            }
+
+            for (var j = meteors.length - 1; j >= 0; j--) {
+                var m = meteors[j];
+                var endX = m.x - Math.cos(m.angle) * m.length;
+                var endY = m.y - Math.sin(m.angle) * m.length;
+
+                var grad = ctx.createLinearGradient(m.x, m.y, endX, endY);
+                grad.addColorStop(0, 'rgba(255, 255, 255, ' + m.alpha + ')');
+                grad.addColorStop(0.3, 'rgba(189, 160, 255, ' + (m.alpha * 0.6) + ')');
+                grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+                ctx.save();
+                ctx.strokeStyle = grad;
+                ctx.lineWidth = m.width;
+                ctx.lineCap = 'round';
+                ctx.beginPath();
+                ctx.moveTo(m.x, m.y);
+                ctx.lineTo(endX, endY);
+                ctx.stroke();
+
+                ctx.fillStyle = '#ffffff';
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = '#ffffff';
+                ctx.beginPath();
+                ctx.arc(m.x, m.y, m.width * 1.2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+
+                m.x += Math.cos(m.angle) * m.speed;
+                m.y += Math.sin(m.angle) * m.speed;
+                m.alpha -= m.decay;
+
+                if (m.alpha <= 0) {
+                    meteors.splice(j, 1);
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        animate();
+        setTimeout(scheduleMeteor, 800);
+    }
+
+
+    /* =========================================================
+       AUTO-FIT PROFILE TO FRAME
+    ========================================================= */
+
+    var profile = document.querySelector(".marie-profile");
+    var content = document.querySelector(".marie-content");
+
+    function fitMarieProfile() {
+        if (!profile || !content) return;
+
+        profile.style.setProperty("--marie-scale", "1");
+
+        requestAnimationFrame(function () {
+            var frameWidth = profile.clientWidth;
+            var frameHeight = profile.clientHeight;
+
+            if (!frameWidth || !frameHeight) return;
+
+            var contentWidth = content.offsetWidth;
+            var contentHeight = content.offsetHeight;
+
+            var availableWidth = frameWidth - 30;
+            var availableHeight = frameHeight - 30;
+
+            var widthScale = availableWidth / contentWidth;
+            var heightScale = availableHeight / contentHeight;
+
+            var scale = Math.min(1, widthScale, heightScale);
+            scale = Math.max(.55, scale);
+
+            profile.style.setProperty("--marie-scale", scale.toFixed(4));
+        });
+    }
+
+    fitMarieProfile();
+    window.addEventListener("resize", fitMarieProfile);
+
+    if (typeof ResizeObserver !== "undefined") {
+        var observer = new ResizeObserver(function () {
+            fitMarieProfile();
+        });
+        observer.observe(profile);
+    }
+
+    var images = document.querySelectorAll(".marie-profile img");
+    images.forEach(function (image) {
+        if (!image.complete) {
+            image.addEventListener("load", fitMarieProfile, { once: true });
+        }
+    });
+
+
+    /* =========================================================
+       LIVE QUEBEC TIME
+    ========================================================= */
+
+    function updateMarieTime() {
+        var element = document.getElementById("marieQuebecTime");
+        if (!element) return;
+
+        try {
+            var formatter = new Intl.DateTimeFormat("en-US", {
                 timeZone: "America/Toronto",
-
                 hour: "2-digit",
                 minute: "2-digit",
                 second: "2-digit",
-
                 hour12: true
-            };
+            });
+            element.textContent = formatter.format(new Date());
+        } catch (error) {
+            element.textContent = new Date().toLocaleTimeString();
+        }
+    }
+
+    updateMarieTime();
+    setInterval(updateMarieTime, 1000);
 
 
-            const time =
-                new Intl.DateTimeFormat(
-                    "en-US",
-                    options
-                ).format(
-                    new Date()
-                );
+    /* =========================================================
+       TOAST & COPY HELPERS
+    ========================================================= */
 
+    var marieToastTimer;
 
-            document.getElementById(
-                "quebecTime"
-            ).textContent = time;
+    function marieShowToast(message) {
+        var toast = document.getElementById("marieToast");
+        var text = document.getElementById("marieToastText");
 
+        if (!toast || !text) return;
+
+        text.textContent = message;
+        toast.classList.add("show");
+
+        clearTimeout(marieToastTimer);
+        marieToastTimer = setTimeout(function () {
+            toast.classList.remove("show");
+        }, 2200);
+    }
+
+    function marieFallbackCopy(text, label) {
+        var input = document.createElement("textarea");
+        input.value = text;
+        input.style.position = "fixed";
+        input.style.left = "-9999px";
+        input.style.top = "0";
+
+        document.body.appendChild(input);
+        input.focus();
+        input.select();
+
+        try {
+            var successful = document.execCommand("copy");
+            marieShowToast(successful ? label + " copied" : "Couldn't copy");
+        } catch (error) {
+            marieShowToast("Couldn't copy");
         }
 
+        document.body.removeChild(input);
+    }
 
-        updateTime();
-
-
-        setInterval(
-            updateTime,
-            1000
-        );
-
-
-        /* =========================================================
-           COPY
-        ========================================================= */
-
-        let toastTimer;
-
-
-        async function copyText(
-            text,
-            label
-        ) {
-
-            try {
-
-                await navigator.clipboard.writeText(
-                    text
-                );
-
-
-                showToast(
-                    `${label} copied`
-                );
-
-            }
-
-            catch {
-
-                showToast(
-                    "Couldn't copy"
-                );
-
-            }
-
+    window.marieCopyText = function (text, label) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text)
+                .then(function () {
+                    marieShowToast(label + " copied");
+                })
+                .catch(function () {
+                    marieFallbackCopy(text, label);
+                });
+        } else {
+            marieFallbackCopy(text, label);
         }
+    };
 
+    window.marieCopyProfile = function () {
+        var url = window.top && window.top.location
+            ? window.top.location.href
+            : window.location.href;
 
-        /* =========================================================
-           TOAST
-        ========================================================= */
+        marieCopyText(url, "Profile link");
+    };
 
-        function showToast(
-            message
-        ) {
-
-            const toast =
-                document.getElementById(
-                    "toast"
-                );
-
-
-            const toastText =
-                document.getElementById(
-                    "toastText"
-                );
-
-
-            toastText.textContent =
-                message;
-
-
-            toast.classList.add(
-                "show"
-            );
-
-
-            clearTimeout(
-                toastTimer
-            );
-
-
-            toastTimer =
-                setTimeout(
-                    () => {
-
-                        toast.classList.remove(
-                            "show"
-                        );
-
-                    },
-                    2200
-                );
-
-        }
-
-    </script>
-
-</body>
-</html>
+})();
+</script>
