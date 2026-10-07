@@ -1,6 +1,5 @@
 ========================================================================
                       MARIE - PROFILE CARD
-========================================================================
 
 DESCRIPTION:
 An interactive, high-performance profile card website built with 
