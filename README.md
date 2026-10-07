@@ -1,6 +1,5 @@
+#MARIE - PROFILE CARD
 ========================================================================
-                      MARIE - PROFILE CARD
-
 DESCRIPTION:
 An interactive, high-performance profile card website built with 
 vanilla HTML, CSS, and JavaScript. Designed with a dark space theme, 
